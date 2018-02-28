@@ -1,0 +1,32 @@
+const find = require('lodash/find');
+
+module.exports = function apacheConfigTemplate(repos, branchName, config) {
+    const { buildPath, siteName, testDomain, apacheLogDir } = config;
+    const mlBranchName = repos.some(obj => obj.repo === 'MY-REPO-NAME') ? branchName : 'master';
+    return `
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName ${branchName}.${testDomain}
+
+    Header add X-Server "stage"
+    SetEnv APPLICATION_ENV "stage"
+
+    DocumentRoot ${buildPath}/branch_MY-REPO-NAME_${mlBranchName}/public
+    <Directory ${buildPath}/branch_MY-REPO-NAME_${mlBranchName}/public>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+
+        DirectoryIndex index.php index.html
+    </Directory>
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    ErrorLog ${apacheLogDir}/${branchName}.${testDomain}.error.log
+    CustomLog ${apacheLogDir}/${branchName}.${testDomain}.access.log combined
+</VirtualHost>
+    `;
+}

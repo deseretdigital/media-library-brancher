@@ -1,0 +1,15 @@
+{
+  "name": "media-library-brancher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "dotenv": "^2.0.0",
+    "github-api": "^2.3.0",
+    "lodash": "^4.17.4",
+    "remove": "^0.1.5",
+    "simple-git": "^1.65.0"
+  }
+}
